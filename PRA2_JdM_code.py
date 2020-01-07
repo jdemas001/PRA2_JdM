@@ -283,3 +283,20 @@ plt.show()
 # Calculamos el ROC AUC Score
 r_a_score = roc_auc_score(Y_train, y_scores)
 print("ROC-AUC-Score:", r_a_score)
+
+# Convertir dataframe de entrenamiento tras los cambios a fichero csv.
+df_cleaned.to_csv("train_final.csv", index = False)
+print('Fichero guardado: train_final.csv')
+
+# Convertir dataframe de test tras los cambios a fichero csv.
+df_test.to_csv("test_final.csv", index = False)
+print('Fichero guardado: test_final.csv')
+
+# Convertir predicciones a fichero csv para envío a Kaggle.
+def envio_kaggle_titanic(filename, predictions):
+    envio_k = pd.DataFrame({'PassengerId':df_test['PassengerId'], 'Survived':predictions})
+    envio_k.to_csv(filename, index = False)
+
+# Llamo a la función con las predicciones realizadas cuando he evaluado el modelo Random Forest.
+envio_kaggle_titanic("titanic_predictions.csv", Y_prediction)
+print('Fichero guardado: titanic_predictions.csv')
